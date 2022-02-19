@@ -1,0 +1,77 @@
+﻿@using WebAppMVC.ViewModels
+@using WebAppMVC.Models
+@model IndexViewModel
+
+@{
+	ViewData["Title"] = "Таблица";
+}
+
+<h3>Таблица потребителей</h3>
+
+<form class="form-inline">
+	<table class="table col-3">
+		<thead>
+			<tr>
+				<th><label>Фильтры. Выбрать по: </label></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<select name="consumerId" class="carousel">
+						@foreach (Consumer cons in Model.Consumers)
+						{
+							<option value="@cons.Id">@cons.ConsumerName</option>
+						}
+					</select>
+					<label> Дата </label>
+					<select name="date" class="carousel">
+						@foreach (Consumption consumptiom in Model.Consumptions)
+						{
+							<option value="@consumptiom.Date">@consumptiom.Date</option>
+						}
+					</select>
+				</td>
+				<td> <input type="submit" value="Выбрать" /></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<table class="table col-auto">
+	<thead>
+		<tr>
+			<th>
+				<label>Потребитель</label>
+			</th>
+			<th>
+				<label>Дата</label>
+			</th>
+			<th>
+				<label>Потребление</label>
+			</th>
+			<th>
+				<label>Цена</label>
+			</th>
+			<th>
+				<label>Температура</label>
+			</th>
+			<th>
+				<label>Сохранить</label>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (ConsumerViewModel item in Model.ConsumerViewModels)
+		{
+			<tr>
+				<td>@item.ConsumerName</td>
+				<td>@item.Date.Date</td>
+				<td><input name="@item.ConsumptionValue" value="@item.ConsumptionValue" /></td>
+				<td><input name="@item.PriceValue" value="@item.PriceValue" /></td>
+				<td><input name="@item.Temperature" value="@item.Temperature" /></td>
+				<td><input type="submit" value="Сохранить" /></td>
+			</tr>
+		}
+	</tbody>
+</table>
+
