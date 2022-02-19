@@ -1,4 +1,5 @@
 using WebAppMVC.Models;
+using WebAppMVC.Profiles;
 using WebAppMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,14 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
+//builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddScoped<FileParserService>();
-builder.Services.AddScoped<CalendarService>();
+builder.Services.AddTransient<TableService>();
 builder.Services.AddScoped<ConsumptionService>();
 builder.Services.AddScoped<ConsumerService>();
 builder.Services.AddScoped<PriceService>();
 builder.Services.AddScoped<WeatherService>();
 builder.Services.AddScoped<DbCombine>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 var app = builder.Build();
@@ -32,6 +35,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+//app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

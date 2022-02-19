@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Models
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<Calendar> Calendars => Set<Calendar>();
+       
         public DbSet<Consumer> Consumers => Set<Consumer>();
         public DbSet<Consumption> Consumptions => Set<Consumption>();
         public DbSet<Price> Prices => Set<Price>();
@@ -21,6 +22,8 @@ namespace WebAppMVC.Models
         {
             optionsBuilder.UseSqlite("Data Source = TPlusBricks.db");
         }
+
+        public DbSet<WebAppMVC.ViewModels.ConsumerViewModel> ConsumerViewModel { get; set; }
 
 
     }

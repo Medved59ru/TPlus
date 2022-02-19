@@ -4,11 +4,9 @@ namespace WebAppMVC.Models
 {
     public class Weather
     {
-        public int Id { get; set; }
-
-        [Display(Name = "Температура")]
-        public decimal Temperature { get; set; }
-        public int CalendarId { get; set; }
-        public Calendar? Calendar { get; set; }
+        public int? Id { get; set; }
+        public decimal? Temperature { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? Date { get; set; }
     }
 }

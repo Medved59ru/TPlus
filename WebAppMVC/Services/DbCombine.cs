@@ -7,19 +7,17 @@ namespace WebAppMVC.Services
     public class DbCombine
     {
         private readonly DatabaseContext context;
-        private readonly CalendarService calendarService;
         private readonly ConsumerService consumerService;
         private readonly ConsumptionService consumptionService;
         private readonly PriceService priceService;
         private readonly WeatherService weatherService;
    
 
-        public DbCombine(DatabaseContext context, CalendarService calendarService, 
-                        ConsumerService consumerService, ConsumptionService consumptionService,
+        public DbCombine(DatabaseContext context, ConsumerService consumerService, 
+                        ConsumptionService consumptionService,
                         PriceService priceService, WeatherService weatherService)
         {
             this.context = context;
-            this.calendarService = calendarService; 
             this.consumerService = consumerService;
             this.consumptionService = consumptionService;
             this.priceService = priceService;
@@ -31,24 +29,21 @@ namespace WebAppMVC.Services
         {
             foreach (var dto in dtoSet)
             {
-                calendarService.AddDatesAsync(dto);
                 consumerService.AddConsumerAsync(dto);
             }
 
             foreach(var dto in dtoSet)
-            {
-                int calendarId = calendarService.GetDateIdBy(dto);
+            {               
                 int consumerId = consumerService.GetConsumerIdBy(dto);
-                consumptionService.AddConsumptionAsync(dto, consumerId, calendarId);
+                consumptionService.AddConsumptionAsync(dto, consumerId);
                 if (dto.Weather != null)
                 {
-                    weatherService.AddWeatherAsync(dto, calendarId);
-                 
+                    weatherService.AddWeatherAsync(dto);
                 }
                 
                 if(dto.Price != null)
                 {
-                    priceService.AddPriceAsync(dto, consumerId, calendarId);
+                    priceService.AddPriceAsync(dto, consumerId);
                 }
                               
             }            

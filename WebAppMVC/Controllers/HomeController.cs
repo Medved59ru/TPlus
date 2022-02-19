@@ -35,12 +35,9 @@ namespace WebAppMVC.Controllers
 
             }
 
-            return RedirectToAction("Table");
+            return RedirectToAction("Index","Table");
         }
-        public IActionResult Table()
-        {
-            return View();
-        }
+      
         public IActionResult Charts()
         {
             return View();

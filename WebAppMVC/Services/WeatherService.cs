@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
 using WebAppMVC.Dto;
 using WebAppMVC.Models;
 
@@ -13,17 +12,22 @@ namespace WebAppMVC.Services
             this.context = context;
         }
 
-        public void AddWeatherAsync(InitialDto dto, int calendarId)
+        public void AddWeatherAsync(InitialDto dto)
         {
             Weather weather = new Weather();
             weather.Temperature = GetTemperatureFrom(dto.Weather);
-            weather.CalendarId = calendarId;
+            weather.Date = DateTime.Parse(dto.Date);
             if (CheckUnOriginality(weather))
             {
                 context.Weathers.AddAsync(weather);
                 context.SaveChangesAsync();
             }
 
+        }
+
+        public Weather GetTemperatureOrDefaultBy(Consumption consumption)
+        {
+            return context.Weathers.Where(item => item.Date == consumption.Date).FirstOrDefault();
         }
 
         private decimal GetTemperatureFrom(string weather)
@@ -34,7 +38,7 @@ namespace WebAppMVC.Services
         private bool CheckUnOriginality(Weather item)
         {
             bool exist = false;
-            if (!context.Weathers.Any(i=>i.Temperature == item.Temperature))
+            if (!context.Weathers.Any(i => i.Date == item.Date))
             {
                 exist = true;
             }

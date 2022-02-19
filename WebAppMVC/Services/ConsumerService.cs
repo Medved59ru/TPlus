@@ -29,6 +29,13 @@ namespace WebAppMVC.Services
              return context.Consumers.First(d => d.ConsumerName == dto.Name).Id;
         }
 
+        public List<Consumer> GetAllConsumers()
+        {
+            return context.Consumers.ToList();
+        }
+
+        public List<Consumer> GetConsumerById(int? id) => context.Consumers.Where(item =>item.Id == id).ToList();
+
         private bool CheckUnOriginality(string name)
         {
             bool exist = false;
@@ -40,5 +47,7 @@ namespace WebAppMVC.Services
             return exist;
 
         }
+
+
     }
 }

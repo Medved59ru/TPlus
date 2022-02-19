@@ -6,7 +6,6 @@ namespace WebAppMVC.Models
     {
         public int Id { get; set; }
         
-        [Display (Name="Потребитель")]
-        public string? ConsumerName { get; set; }
+       public string? ConsumerName { get; set; }
     }
 }
