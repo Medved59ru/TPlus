@@ -5,7 +5,7 @@ namespace WebAppMVC.ViewModels
     public class ConsumerViewModel
     {
          
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Display(Name = "Потребитель")]
         public string? ConsumerName { get; set; }

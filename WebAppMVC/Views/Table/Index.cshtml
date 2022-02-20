@@ -1,6 +1,6 @@
-﻿@using WebAppMVC.ViewModels
-@using WebAppMVC.Models
-@model IndexViewModel
+﻿ @using WebAppMVC.ViewModels
+ @using WebAppMVC.Models
+ @model IndexViewModel
 
 @{
 	ViewData["Title"] = "Таблица";
@@ -31,6 +31,7 @@
 							<option value="@consumptiom.Date">@consumptiom.Date</option>
 						}
 					</select>
+					<label> При выборе текущей даты - фильтр по дате не применяется </label>
 				</td>
 				<td> <input type="submit" value="Выбрать" /></td>
 			</tr>
@@ -55,9 +56,9 @@
 			<th>
 				<label>Температура</label>
 			</th>
-			<th>
-				<label>Сохранить</label>
-			</th>
+			@*<th>
+				<label>Редактировать</label>
+			</th>*@
 		</tr>
 	</thead>
 	<tbody>
@@ -67,9 +68,20 @@
 				<td>@item.ConsumerName</td>
 				<td>@item.Date.Date</td>
 				<td><input name="@item.ConsumptionValue" value="@item.ConsumptionValue" /></td>
-				<td><input name="@item.PriceValue" value="@item.PriceValue" /></td>
-				<td><input name="@item.Temperature" value="@item.Temperature" /></td>
-				<td><input type="submit" value="Сохранить" /></td>
+
+				@if (@item.PriceValue != null)
+				{
+					<td><input name="@item.PriceValue" value="@item.PriceValue" /></td>
+				}else{ <td> Не применимо </td>}
+
+				@if(@item.Temperature != null)
+				{
+					<td><input name="@item.Temperature" value="@item.Temperature" /></td>
+				}else{ <td> Не применимо </td>}
+
+				
+			@*	<td> <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a></td>*@
+				@*<td><input type="submit" value="Сохранить" /></td>*@
 			</tr>
 		}
 	</tbody>

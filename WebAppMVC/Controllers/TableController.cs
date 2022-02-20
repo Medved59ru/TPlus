@@ -15,8 +15,8 @@ namespace WebAppMVC.Controllers
         {
             _tableService = tableService;
         }
-        // GET: TableController
-       
+
+
         public ActionResult Index(int? consumerId, DateTime? date)
         {
             consumers = _tableService.GetConsumersListForSelector();
@@ -28,14 +28,27 @@ namespace WebAppMVC.Controllers
 
             IndexViewModel viewModel = new IndexViewModel { Consumers = consumers, ConsumerViewModels = consumerList, Consumptions = consumptions };
 
+
+
             return View(viewModel);
         }
 
-       
+
         //// GET: TableController/Edit/5
-        //public ActionResult Edit(int id)
+        //public ActionResult Edit(int? id)
         //{
-        //    return View();
+        //    int? consumerId  = null;
+        //    DateTime? date = null;
+
+
+        //    var model = new ConsumerViewModel();
+
+        //    consumerList = _tableService.GetAllConsumers(consumerId, date);
+
+        //    if (id != null && id > 0)
+        //        model = consumerList.Where(item => item.Id == id).First();
+
+        //    return View(model);
         //}
 
         //// POST: TableController/Edit/5
@@ -53,8 +66,13 @@ namespace WebAppMVC.Controllers
         //    }
         //}
 
-       
+        //string name = null;
 
-       
+        //    if(consumerId != null)
+        //        name = consumerList.Where(x=>x.Id == consumerId).First().ConsumerName;
+
+        //    if (name != null)
+        //        viewModel.ConsumerViewModels = consumerList.Where(item => item.ConsumerName == name).ToList();
+
     }
 }

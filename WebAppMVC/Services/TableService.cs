@@ -57,7 +57,7 @@ namespace WebAppMVC.Services
                             item.Date = consumption.Date;
                             item.ConsumptionValue = consumption.ConsumptionValue;
                             item.Temperature = temperature.Temperature;
-                            item.PriceValue = 0;
+                            item.PriceValue =  null;
                         }
 
                         if (price != null)
@@ -66,7 +66,7 @@ namespace WebAppMVC.Services
                             item.ConsumerName = consumer.ConsumerName;
                             item.ConsumptionValue = consumption.ConsumptionValue;
                             item.Date = consumption.Date;
-                            item.Temperature = 0;
+                            item.Temperature = null;
                             item.PriceValue = price.PriceValue;
 
                         }
