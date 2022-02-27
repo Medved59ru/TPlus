@@ -1,3 +1,4 @@
+using System.Web.Mvc;
 using WebAppMVC.Models;
 using WebAppMVC.Profiles;
 using WebAppMVC.Services;
@@ -16,7 +17,7 @@ builder.Services.AddScoped<ConsumerService>();
 builder.Services.AddScoped<PriceService>();
 builder.Services.AddScoped<WeatherService>();
 builder.Services.AddScoped<DbCombine>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 var app = builder.Build();

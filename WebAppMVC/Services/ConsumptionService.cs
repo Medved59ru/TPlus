@@ -26,6 +26,19 @@ namespace WebAppMVC.Services
 
         }
 
+        public void UpdateAsync(int? consumerId, DateTime? date, decimal? newValue)
+        {
+            var item = GetConsumptionBy(consumerId, date);
+
+            if(item != null && newValue != null && item.ConsumptionValue != newValue)
+            {
+                item.ConsumptionValue = (decimal)newValue;
+                context.SaveChangesAsync();
+            }
+
+        }
+      
+
         public List<Consumption> GetAllConsumption()
         {
             return context.Consumptions.ToList();
@@ -45,6 +58,8 @@ namespace WebAppMVC.Services
         {
             return context.Consumptions.Where(item => item.ConsumerId == consumerId).ToList();
         }
+
+        private Consumption GetConsumptionBy(int? consumerId, DateTime? date) => context.Consumptions.Where(i => i.ConsumerId == consumerId).Where(i => i.Date == date).FirstOrDefault();
 
         private decimal GetCompsumptionFrom(string consumption)
         {

@@ -89,6 +89,19 @@ namespace WebAppMVC.Services
             return _consumptionService.GetAllConsumption();
         }
 
+        public void SaveChanges (ConsumerViewModel consumerViewModel)
+        {
+            int consumerId = _consumerService.GetConsumerIdBy(consumerViewModel.ConsumerName);
+
+            _consumptionService.UpdateAsync(consumerId, consumerViewModel.Date, consumerViewModel.ConsumptionValue);
+
+            if(consumerViewModel.Temperature != null)
+                    _weatherService.UpdateTemperatureAsync(consumerViewModel.Date,consumerViewModel.Temperature);
+
+            if (consumerViewModel.PriceValue != null)
+                _priceService.UpdatePriceAsync(consumerId, consumerViewModel.Date, consumerViewModel.PriceValue);
+           
+        }
 
     }
 }

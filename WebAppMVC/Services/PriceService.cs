@@ -32,6 +32,16 @@ namespace WebAppMVC.Services
             return context.Prices.First(d => d.PriceValue == priceDto).Id;
         }
 
+        public void UpdatePriceAsync(int? consumerId, DateTime? date, decimal? newPrice)
+        {
+            var price = context.Prices.Where(x => x.Date == date).Where(i => i.ConsumerId == consumerId).FirstOrDefault();
+
+            if(price != null && newPrice != null && price.PriceValue  != newPrice)
+            {
+                price.PriceValue = (decimal)newPrice;
+                context.SaveChangesAsync();
+            }
+        }
         public Price GetPriceOrDefualtBy(Consumption consumption)
         {
             return context.Prices.Where(item => item.ConsumerId == consumption.ConsumerId).Where(item => item.Date == consumption.Date).FirstOrDefault();
@@ -46,7 +56,7 @@ namespace WebAppMVC.Services
         private bool CheckUnOriginality(Price item)
         {
             bool exist = false;
-            if (!context.Prices.Where(c=>c.ConsumerId == item.ConsumerId).Any(i=>i.Date==item.Date))
+            if (!context.Prices.Where(c => c.ConsumerId == item.ConsumerId).Any(i => i.Date == item.Date))
             {
                 exist = true;
             }

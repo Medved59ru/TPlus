@@ -6,10 +6,10 @@ namespace WebAppMVC.Models
     public class DatabaseContext : DbContext
     {
        
-        public DbSet<Consumer> Consumers => Set<Consumer>();
-        public DbSet<Consumption> Consumptions => Set<Consumption>();
-        public DbSet<Price> Prices => Set<Price>();
-        public DbSet<Weather> Weathers => Set<Weather>();
+        public virtual DbSet<Consumer> Consumers => Set<Consumer>();
+        public virtual DbSet<Consumption> Consumptions => Set<Consumption>();
+        public virtual DbSet<Price> Prices => Set<Price>();
+        public virtual DbSet<Weather> Weathers => Set<Weather>();
      
 
         public DatabaseContext()
@@ -23,7 +23,7 @@ namespace WebAppMVC.Models
             optionsBuilder.UseSqlite("Data Source = TPlusBricks.db");
         }
 
-        public DbSet<WebAppMVC.ViewModels.ConsumerViewModel> ConsumerViewModel { get; set; }
+        //public DbSet<WebAppMVC.ViewModels.ConsumerViewModel> ConsumerViewModel { get; set; }
 
 
     }

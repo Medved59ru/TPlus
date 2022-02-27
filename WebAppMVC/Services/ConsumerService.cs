@@ -29,6 +29,11 @@ namespace WebAppMVC.Services
              return context.Consumers.First(d => d.ConsumerName == dto.Name).Id;
         }
 
+        public int GetConsumerIdBy(string consumerName)
+        {
+            return context.Consumers.First(d => d.ConsumerName == consumerName).Id;
+        }
+
         public List<Consumer> GetAllConsumers()
         {
             return context.Consumers.ToList();

@@ -30,6 +30,17 @@ namespace WebAppMVC.Services
             return context.Weathers.Where(item => item.Date == consumption.Date).FirstOrDefault();
         }
 
+        public void UpdateTemperatureAsync(DateTime? date, decimal? tempValue)
+        {
+            var weather = context.Weathers.Where(t => t.Date == date).FirstOrDefault();
+            if (weather != null && tempValue != null && weather.Temperature != tempValue)
+            {
+                weather.Temperature = tempValue;
+                context.SaveChangesAsync();
+            }
+
+        }
+
         private decimal GetTemperatureFrom(string weather)
         {
             return Decimal.Parse(weather, NumberStyles.Any | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);

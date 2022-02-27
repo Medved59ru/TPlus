@@ -38,9 +38,12 @@
 		</tbody>
 	</table>
 </form>
-<table class="table col-auto">
+<table class="table col-auto" id = "dataTable">
 	<thead>
 		<tr>
+            <th>
+                <label>Номер</label>
+            </th>
 			<th>
 				<label>Потребитель</label>
 			</th>
@@ -56,34 +59,175 @@
 			<th>
 				<label>Температура</label>
 			</th>
-			@*<th>
+			<th>
 				<label>Редактировать</label>
-			</th>*@
+			</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody class ="tboby" id = "tblBody">
 		@foreach (ConsumerViewModel item in Model.ConsumerViewModels)
 		{
 			<tr>
-				<td>@item.ConsumerName</td>
-				<td>@item.Date.Date</td>
-				<td><input name="@item.ConsumptionValue" value="@item.ConsumptionValue" /></td>
+                <td class = "ConsumerModelId">
+                    <span>@item.Id</span>
+                </td>
+                <td class = "ConsumerName" >
+					<span> @item.ConsumerName </span>
+				</td>
+				<td class = "Date">
+					<span> @item.Date.Date </span>
+				</td>
+				<td class = "Consumption">
+					<span>@item.ConsumptionValue</span>
+					<input type = "text" value="@item.ConsumptionValue" style ="display:none"/> 
+				</td>
 
 				@if (@item.PriceValue != null)
 				{
-					<td><input name="@item.PriceValue" value="@item.PriceValue" /></td>
+					<td class = "Price">
+						<span> @item.PriceValue </span>
+						<input type="text" value="@item.PriceValue" style ="display:none"/>
+					</td>
+				
 				}else{ <td> Не применимо </td>}
 
 				@if(@item.Temperature != null)
 				{
-					<td><input name="@item.Temperature" value="@item.Temperature" /></td>
+					<td class = "Temperature">
+						<span> @item.Temperature </span>
+						<input type="text" value="@item.Temperature" style ="display:none"/>
+					</td>
+				
 				}else{ <td> Не применимо </td>}
 
 				
-			@*	<td> <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a></td>*@
-				@*<td><input type="submit" value="Сохранить" /></td>*@
-			</tr>
-		}
+				<td> 
+					<a class ="btnEdit" href = "javascript:;"> Редактировать </a>
+					 <a class="btnUpdate" href="javascript:;" style="display:none">Сохранить</a>
+                    <a class="btnCancel" href="javascript:;" style="display:none">Отменить</a>
+				</td>
+
+			
+		   </tr>
+
+		
+			}
 	</tbody>
 </table>
+
+
+   <script src="~/js/jquery.min.js"></script>
+   <script src="~/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+  
+
+    //Edit event handler.
+    $("body").on("click", "#dataTable .btnEdit", function () {
+        debugger;
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                $(this).find("input").show();
+                $(this).find("span").hide();
+            }
+        });
+        row.find(".btnUpdate").show();
+        row.find(".btnCancel").show();
+        $(this).hide();
+       
+    });
+
+    //Update event handler.
+    $("body").on("click", "#dataTable .btnUpdate", function () {
+        debugger;
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                span.html(input.val());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".btnEdit").show();
+        row.find(".btnCancel").hide();
+        $(this).hide();
+         
+        var consumerViewModel = {
+            Id: row.find(".ConsumerModelId").find("span").html(),
+            ConsumerName: row.find(".ConsumerName").find("span").html(),
+            Date: row.find(".Date").find("span").html(),
+            ConsumptionValue: row.find(".Consumption").find("span").html(),
+            PriceValue: row.find(".Price").find("span").html(),
+            Temperature: row.find(".Temperature").find("span").html(),
+        };
+        if (!consumerViewModel.Id || consumerViewModel.Id <= 0) {
+            alert("Invalid Id!");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Table/UpdateConsumer",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            traditional: true,
+            data: JSON.stringify(consumerViewModel),
+            success: function (result) {
+                ClearAllInput();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    });
+
+    //Cancel event handler.
+    $("body").on("click", "#dataTable .btnCancel", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                input.val(span.html());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".btnEdit").show();
+        row.find(".btnUpdate").hide();
+        $(this).hide();
+    });
+
+ 
+
+    function ValidateUserInput() {
+        var isValid = true;
+        if ($('#txtConsumption').val().trim() == "") {
+            $('#txtConsumption').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#txtConsumption').css('border-color', 'lightgrey');
+        }
+        if ($('#txtPrice').val().trim() == "") {
+            $('#txtPrice').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#txtPrice').css('border-color', 'lightgrey');
+        }
+        if ($('#txtTemperature').val().trim() == "") {
+            $('#txtTemperature').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#txtTemperature').css('border-color', 'lightgrey');
+        }
+        
+        return isValid;
+    }
+</script>
 

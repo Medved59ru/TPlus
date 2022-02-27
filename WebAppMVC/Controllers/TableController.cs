@@ -33,46 +33,29 @@ namespace WebAppMVC.Controllers
             return View(viewModel);
         }
 
+        // back tracking doesn't work ?????
+        [HttpPost]
+        public JsonResult UpdateConsumer(ConsumerViewModel consumerViewModel)
+        {
+            string status = "success";
 
-        //// GET: TableController/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    int? consumerId  = null;
-        //    DateTime? date = null;
+
+            try
+            {
+                _tableService.SaveChanges(consumerViewModel);
+
+            }
+            catch (Exception ex)
+            {
+                status = ex.Message;
+
+            }
 
 
-        //    var model = new ConsumerViewModel();
+            return Json(status);
+        }
 
-        //    consumerList = _tableService.GetAllConsumers(consumerId, date);
-
-        //    if (id != null && id > 0)
-        //        model = consumerList.Where(item => item.Id == id).First();
-
-        //    return View(model);
-        //}
-
-        //// POST: TableController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //string name = null;
-
-        //    if(consumerId != null)
-        //        name = consumerList.Where(x=>x.Id == consumerId).First().ConsumerName;
-
-        //    if (name != null)
-        //        viewModel.ConsumerViewModels = consumerList.Where(item => item.ConsumerName == name).ToList();
+          
 
     }
 }
